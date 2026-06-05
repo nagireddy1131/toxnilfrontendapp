@@ -1,0 +1,372 @@
+// Centralized product data with reviews and trust signals
+export const products = [
+  {
+    id: 1,
+    name: "Nano Curcumin Plus",
+    category: "Anti-Inflammatory",
+    price: 3999,
+    originalPrice: 5499,
+    discount: 27,
+    image: "/curcumin-supplement-bottle.jpg",
+    description: "Enhanced absorption curcumin for joint health and inflammation support",
+    fullDescription:
+      "Our Nano Curcumin Plus uses advanced nanotechnology to deliver curcumin with up to 10x better absorption than standard supplements. This powerful anti-inflammatory compound supports joint health, reduces inflammation, and promotes overall wellness.",
+    inStock: true,
+    rating: 4.8,
+    reviewCount: 1074,
+    benefits: [
+      "10x better absorption than standard curcumin",
+      "Supports joint health and mobility",
+      "Powerful anti-inflammatory properties",
+      "Promotes cardiovascular health",
+    ],
+    dosage: "Take 1-2 capsules daily with meals",
+    ingredients: "Nano Curcumin Extract, Black Pepper Extract, Vegetable Capsule",
+  },
+  {
+    id: 2,
+    name: "Bio-Enhanced Omega-3",
+    category: "Heart Health",
+    price: 2999,
+    originalPrice: 4299,
+    discount: 30,
+    image: "/omega-3-fish-oil-bottle.jpg",
+    description: "Superior omega-3 fatty acids for cardiovascular wellness",
+    fullDescription:
+      "Our Bio-Enhanced Omega-3 features nano-emulsified fish oil for superior absorption and bioavailability. Rich in EPA and DHA, this formula supports heart health, brain function, and reduces inflammation.",
+    inStock: true,
+    rating: 4.9,
+    reviewCount: 856,
+    benefits: [
+      "Superior absorption with nano-emulsion technology",
+      "Supports cardiovascular health",
+      "Promotes brain function and cognitive health",
+      "Reduces inflammation",
+    ],
+    dosage: "Take 2 capsules daily with meals",
+    ingredients: "Nano-Emulsified Fish Oil (EPA/DHA), Vitamin E, Softgel Capsule",
+  },
+  {
+    id: 3,
+    name: "Advanced Multivitamin",
+    category: "Daily Wellness",
+    price: 2499,
+    originalPrice: 3499,
+    discount: 28,
+    image: "/multivitamin-supplement-bottle.jpg",
+    description: "Complete daily nutrition with nano-enhanced bioavailability",
+    fullDescription:
+      "Our Advanced Multivitamin delivers comprehensive daily nutrition with nano-enhanced vitamins and minerals for optimal absorption.",
+    inStock: true,
+    rating: 4.7,
+    reviewCount: 1256,
+    benefits: [
+      "Complete daily nutritional support",
+      "Nano-enhanced for better absorption",
+      "Supports energy and vitality",
+      "Boosts immune function",
+    ],
+    dosage: "Take 1 capsule daily with breakfast",
+    ingredients: "Nano Vitamins A, C, D, E, K, B-Complex, Minerals, Vegetable Capsule",
+  },
+  {
+    id: 4,
+    name: "Nano Vitamin D3",
+    category: "Immunity",
+    price: 1999,
+    originalPrice: 2799,
+    discount: 28,
+    image: "/vitamin-d3-supplement.jpg",
+    description: "Optimal vitamin D absorption for immune system support",
+    fullDescription:
+      "Nano Vitamin D3 provides the sunshine vitamin in its most bioavailable form, supporting immune function, bone health, and mood regulation.",
+    inStock: true,
+    rating: 4.8,
+    reviewCount: 923,
+    benefits: [
+      "Enhanced immune system support",
+      "Promotes bone health",
+      "Supports mood regulation",
+      "Optimal absorption technology",
+    ],
+    dosage: "Take 1 capsule daily with meals",
+    ingredients: "Nano Vitamin D3 (Cholecalciferol), MCT Oil, Softgel Capsule",
+  },
+  {
+    id: 5,
+    name: "CoQ10 Advanced",
+    category: "Energy",
+    price: 3499,
+    originalPrice: 4499,
+    discount: 22,
+    image: "/coq10-supplement.jpg",
+    description: "Cellular energy production with enhanced bioavailability",
+    fullDescription:
+      "CoQ10 Advanced delivers ubiquinol, the active form of CoQ10, with nano-enhanced delivery for maximum cellular energy production and antioxidant protection.",
+    inStock: true,
+    rating: 4.6,
+    reviewCount: 678,
+    benefits: [
+      "Boosts cellular energy production",
+      "Powerful antioxidant protection",
+      "Supports heart health",
+      "Enhanced bioavailability",
+    ],
+    dosage: "Take 1 capsule daily with food",
+    ingredients: "Ubiquinol (Active CoQ10), Vitamin E, Softgel Capsule",
+  },
+  {
+    id: 6,
+    name: "Magnesium Complex",
+    category: "Sleep & Relaxation",
+    price: 2299,
+    originalPrice: 2999,
+    discount: 23,
+    image: "/magnesium-supplement.jpg",
+    description: "Multiple forms of magnesium for optimal absorption and relaxation",
+    fullDescription:
+      "Our Magnesium Complex combines multiple forms of magnesium for comprehensive benefits including muscle relaxation, better sleep, and stress reduction.",
+    inStock: true,
+    rating: 4.9,
+    reviewCount: 1432,
+    benefits: [
+      "Promotes muscle relaxation",
+      "Supports quality sleep",
+      "Reduces stress and anxiety",
+      "Multiple magnesium forms",
+    ],
+    dosage: "Take 2 capsules before bedtime",
+    ingredients: "Magnesium Glycinate, Magnesium Citrate, Magnesium Taurate, Vegetable Capsule",
+  },
+  {
+    id: 7,
+    name: "Probiotic Elite",
+    category: "Digestive Health",
+    price: 2999,
+    originalPrice: 4299,
+    discount: 30,
+    image: "/probiotic-supplement.jpg",
+    description: "Advanced probiotic formula for gut health and immunity",
+    fullDescription:
+      "Probiotic Elite contains 50 billion CFUs from 12 clinically studied strains, protected by our advanced delivery system for maximum gut colonization.",
+    inStock: false,
+    rating: 4.7,
+    reviewCount: 789,
+    benefits: [
+      "50 billion CFUs per serving",
+      "12 clinically studied strains",
+      "Supports digestive health",
+      "Boosts immune function",
+    ],
+    dosage: "Take 1 capsule daily on empty stomach",
+    ingredients: "Probiotic Blend (12 Strains), Prebiotic Fiber, Delayed-Release Capsule",
+  },
+  {
+    id: 8,
+    name: "Nano Iron Plus",
+    category: "Energy",
+    price: 2199,
+    originalPrice: 2999,
+    discount: 27,
+    image: "/iron-supplement.jpg",
+    description: "Gentle, highly absorbable iron for energy and vitality",
+    fullDescription:
+      "Nano Iron Plus provides gentle, non-constipating iron with enhanced absorption technology, perfect for those with iron deficiency or increased iron needs.",
+    inStock: true,
+    rating: 4.5,
+    reviewCount: 534,
+    benefits: ["Gentle on the stomach", "Non-constipating formula", "Enhanced absorption", "Supports energy levels"],
+    dosage: "Take 1 capsule daily with vitamin C",
+    ingredients: "Nano Iron (Ferrous Bisglycinate), Vitamin C, Vegetable Capsule",
+  },
+]
+
+export const reviews = [
+  {
+    id: 1,
+    productId: 1,
+    userName: "Sarah M.",
+    rating: 5,
+    date: "2026-01-10",
+    verified: true,
+    helpful: 45,
+    title: "Life-changing for my joint pain!",
+    content:
+      "I've tried many curcumin supplements before, but this nano-enhanced version is truly different. Within 2 weeks, I noticed significant improvement in my knee pain. Highly recommend!",
+  },
+  {
+    id: 2,
+    productId: 1,
+    userName: "Michael R.",
+    rating: 5,
+    date: "2026-01-08",
+    verified: true,
+    helpful: 32,
+    title: "Finally, a curcumin that works",
+    content:
+      "The absorption is noticeably better. I can actually feel the anti-inflammatory effects compared to regular turmeric supplements I've used in the past.",
+  },
+  {
+    id: 3,
+    productId: 1,
+    userName: "Jennifer L.",
+    rating: 4,
+    date: "2026-01-05",
+    verified: true,
+    helpful: 28,
+    title: "Great product, a bit pricey",
+    content:
+      "Quality is excellent and I've seen good results for my inflammation. Only giving 4 stars because of the price, but you get what you pay for.",
+  },
+  {
+    id: 4,
+    productId: 1,
+    userName: "David K.",
+    rating: 5,
+    date: "2026-01-03",
+    verified: true,
+    helpful: 19,
+    title: "Doctor recommended",
+    content:
+      "My doctor actually recommended this brand because of the nano-technology. Been taking it for a month and my inflammation markers have improved significantly.",
+  },
+  {
+    id: 5,
+    productId: 1,
+    userName: "Amanda T.",
+    rating: 5,
+    date: "2025-12-28",
+    verified: true,
+    helpful: 56,
+    title: "Best curcumin supplement I've tried",
+    content:
+      "After researching extensively, I chose TOXNIL for their nanotechnology approach. No regrets - this is the real deal. My joint stiffness has decreased dramatically.",
+  },
+  {
+    id: 6,
+    productId: 2,
+    userName: "Robert H.",
+    rating: 5,
+    date: "2026-01-12",
+    verified: true,
+    helpful: 41,
+    title: "No fishy aftertaste!",
+    content:
+      "Finally an omega-3 that doesn't give me fish burps! The nano-emulsified formula is clearly superior. My triglyceride levels have improved too.",
+  },
+  {
+    id: 7,
+    productId: 2,
+    userName: "Lisa P.",
+    rating: 5,
+    date: "2026-01-09",
+    verified: true,
+    helpful: 35,
+    title: "Excellent quality omega-3",
+    content:
+      "You can tell this is a premium product. Easy to swallow, no aftertaste, and I've noticed improvements in my skin and joint comfort.",
+  },
+  {
+    id: 8,
+    productId: 3,
+    userName: "Chris W.",
+    rating: 5,
+    date: "2026-01-11",
+    verified: true,
+    helpful: 29,
+    title: "Best multivitamin I've used",
+    content:
+      "The nano-enhanced absorption really makes a difference. I feel more energetic and haven't gotten sick since starting this supplement 3 months ago.",
+  },
+]
+
+export const categories = [
+  "Anti-Inflammatory",
+  "Bone & Immunity",
+  "Detox & Cleanse",
+  "Energy & Vitality",
+  "General Wellness",
+  "Gut Health",
+  "Heart Health",
+  "Minerals & Nutrients",
+  "Sleep & Relaxation",
+]
+
+export const faqData = [
+  {
+    category: "Products & Ingredients",
+    questions: [
+      {
+        q: "What is nanotechnology and how does it improve supplements?",
+        a: "Nanotechnology involves reducing particles to nanoscale (1-100nm), dramatically increasing surface area and enabling better cellular absorption. Our nano-enhanced supplements can be absorbed up to 10x better than conventional forms.",
+      },
+      {
+        q: "Are your products safe?",
+        a: "Yes, all our products are manufactured in FDA-registered, GMP-certified facilities. We use only premium, tested ingredients and conduct third-party testing for purity and potency.",
+      },
+      {
+        q: "Are your supplements vegan-friendly?",
+        a: "Most of our supplements use vegetable capsules and are suitable for vegetarians. Products like Omega-3 contain fish oil. Check individual product pages for specific details.",
+      },
+      {
+        q: "How long before I see results?",
+        a: "Results vary by individual and product. Many customers report feeling benefits within 2-4 weeks of consistent use. For best results, take supplements daily as directed.",
+      },
+    ],
+  },
+  {
+    category: "Orders & Shipping",
+    questions: [
+      {
+        q: "How long does shipping take?",
+        a: "Standard shipping takes 3-5 business days within the US. Express shipping (1-2 days) is available at checkout. International shipping takes 7-14 business days.",
+      },
+      {
+        q: "Is shipping free?",
+        a: "Yes! We offer free standard shipping on all orders over ₹999. Orders under ₹999 have a flat shipping rate of ₹99.",
+      },
+      {
+        q: "Can I track my order?",
+        a: "Once your order ships, you'll receive an email with tracking information. You can also track orders in your account dashboard.",
+      },
+      {
+        q: "Do you ship internationally?",
+        a: "Yes, we ship to most countries. International shipping rates and delivery times vary by location. Check our shipping page for specific details.",
+      },
+    ],
+  },
+  {
+    category: "Returns & Refunds",
+    questions: [
+      {
+        q: "What is your return policy?",
+        a: "We offer a 30-day satisfaction guarantee. If you're not completely satisfied, return the product (even if opened) for a full refund, no questions asked.",
+      },
+      {
+        q: "How do I initiate a return?",
+        a: "Contact our support team at support@toxnil.com or use the return request form in your account dashboard. We'll provide a prepaid return label.",
+      },
+      {
+        q: "How long do refunds take?",
+        a: "Once we receive your return, refunds are processed within 3-5 business days. It may take an additional 5-10 days to appear in your account depending on your bank.",
+      },
+    ],
+  },
+  {
+    category: "Subscriptions & Loyalty",
+    questions: [
+      {
+        q: "What are the benefits of subscribing?",
+        a: "Subscribers save 20% on every order, get free shipping, early access to new products, and earn double loyalty points. You can pause, skip, or cancel anytime.",
+      },
+      {
+        q: "How do loyalty points work?",
+        a: "Earn 1 point for every ₹100 spent. Redeem 100 points for ₹50 off your order. VIP members (500+ points) get exclusive perks and bonus point events.",
+      },
+      {
+        q: "Can I change my subscription?",
+        a: "Yes! Easily modify your subscription products, frequency, or delivery date from your account dashboard. Changes take effect on your next order.",
+      },
+    ],
+  },
+]
