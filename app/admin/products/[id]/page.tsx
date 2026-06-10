@@ -122,16 +122,37 @@ export default function AdminProductDetailPage({ params }: { params: Promise<{ i
   const removeGalleryImage = (index: number) =>
     setFormData(prev => ({ ...prev, gallery: prev.gallery.filter((_, i) => i !== index) }))
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>, isGallery = false, index = -1) => {
+  const compressImage = (file: File, maxSize = 1200, quality = 0.82): Promise<string> =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader()
+      reader.onload = (ev) => {
+        const img = new Image()
+        img.onload = () => {
+          const scale = Math.min(1, maxSize / Math.max(img.width, img.height))
+          const canvas = document.createElement('canvas')
+          canvas.width = Math.round(img.width * scale)
+          canvas.height = Math.round(img.height * scale)
+          const ctx = canvas.getContext('2d')!
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+          resolve(canvas.toDataURL('image/jpeg', quality))
+        }
+        img.onerror = reject
+        img.src = ev.target!.result as string
+      }
+      reader.onerror = reject
+      reader.readAsDataURL(file)
+    })
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, isGallery = false, index = -1) => {
     const file = e.target.files?.[0]
     if (!file) return
-    const reader = new FileReader()
-    reader.onloadend = () => {
-      const b64 = reader.result as string
+    try {
+      const b64 = await compressImage(file)
       if (isGallery && index >= 0) handleGalleryChange(index, b64)
       else setFormData(prev => ({ ...prev, image: b64 }))
+    } catch {
+      toast({ title: 'Image processing failed', variant: 'destructive' })
     }
-    reader.readAsDataURL(file)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
