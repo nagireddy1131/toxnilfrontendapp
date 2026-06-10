@@ -170,7 +170,12 @@ export default function AdminProductDetailPage({ params }: { params: Promise<{ i
     e.preventDefault()
     setSaving(true)
     try {
-      const payload = { ...formData, gallery: formData.gallery.filter(url => url.trim() !== "") }
+      const payload = {
+        ...formData,
+        gallery: formData.gallery.filter(url => url.trim() !== ""),
+        // Send undefined (omit) if SKU is blank so sparse unique index doesn't conflict
+        sku: formData.sku?.trim() || undefined,
+      }
       const { data } = await api.put(`/products/${resolvedParams.id}`, payload)
       setProduct(data)
       setIsEditing(false)
