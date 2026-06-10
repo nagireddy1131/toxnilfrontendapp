@@ -58,6 +58,17 @@ export default function AdminProductDetailPage({ params }: { params: Promise<{ i
   const router = useRouter()
   const { toast } = useToast()
 
+  // Guard: if Next.js routing accidentally lands 'new' here, redirect to the correct page
+  useEffect(() => {
+    if (resolvedParams.id === 'new') {
+      router.replace('/admin/products/new')
+    }
+  }, [resolvedParams.id, router])
+
+  if (resolvedParams.id === 'new') {
+    return <div className="flex items-center justify-center min-h-[60vh]"><div className="text-center"><p className="text-muted-foreground">Redirecting...</p></div></div>
+  }
+
   const [product, setProduct] = useState<Product | null>(null)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
