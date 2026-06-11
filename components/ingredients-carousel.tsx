@@ -18,7 +18,7 @@ const ingredients = [
     },
     {
         name: "Ashwagandha",
-        image: "/multivitamin-supplement-bottle.png", // Placeholder
+        image: "/ashwagandha-supplement.png",
         searchParams: "ashwagandha",
     },
     {
@@ -53,12 +53,12 @@ const ingredients = [
     },
     {
         name: "Berberine",
-        image: "/curcumin-supplement-bottle.png", // Placeholder
+        image: "/berberine-supplement.png",
         searchParams: "berberine",
     },
     {
         name: "Ginger",
-        image: "/multivitamin-supplement-bottle.png", // Placeholder
+        image: "/ginger-supplement.png",
         searchParams: "ginger",
     },
 ]
