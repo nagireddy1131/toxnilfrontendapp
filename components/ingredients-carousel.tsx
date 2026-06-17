@@ -65,14 +65,15 @@ const ingredients = [
 
 export function IngredientsCarousel() {
     return (
-        <section className="py-20 bg-background">
+        <section className="py-12 md:py-20 bg-background">
             <div className="container mx-auto px-4">
-                <div className="text-center space-y-4 mb-12">
-                    <h2 className="text-3xl md:text-4xl font-bold text-emerald-900">Shop by Ingredients</h2>
-                    <p className="text-lg text-muted-foreground">Explore our premium botanicals and nutrients</p>
+                <div className="text-center space-y-2 md:space-y-4 mb-8 md:mb-12">
+                    <h2 className="text-2xl md:text-4xl font-bold text-emerald-900">Shop by Ingredients</h2>
+                    <p className="text-base md:text-lg text-muted-foreground">Explore our premium botanicals and nutrients</p>
                 </div>
 
-                <div className="mx-8 md:mx-12">
+                {/* Wrapper: no horizontal margin on mobile to prevent clipping; controlled on md+ */}
+                <div className="relative mx-0 md:mx-12">
                     <Carousel
                         opts={{
                             align: "start",
@@ -82,12 +83,12 @@ export function IngredientsCarousel() {
                     >
                         <CarouselContent className="-ml-2 md:-ml-4">
                             {ingredients.map((ingredient, index) => (
-                                <CarouselItem key={index} className="pl-2 md:pl-4 basis-1/2 md:basis-1/3 lg:basis-1/5">
+                                <CarouselItem key={index} className="pl-2 md:pl-4 basis-1/2 sm:basis-1/3 md:basis-1/3 lg:basis-1/5">
                                     <Link href={`/products?search=${ingredient.searchParams}`}>
                                         <div className="group cursor-pointer">
                                             <Card className="border-0 shadow-sm hover:shadow-md transition-shadow duration-300">
-                                                <CardContent className="p-4 flex flex-col items-center justify-center space-y-4">
-                                                    <div className="relative w-full aspect-[3/4] flex items-center justify-center bg-gray-50 rounded-lg p-4 group-hover:bg-emerald-50 transition-colors duration-300">
+                                                <CardContent className="p-2 md:p-4 flex flex-col items-center justify-center space-y-2 md:space-y-4">
+                                                    <div className="relative w-full aspect-[3/4] flex items-center justify-center bg-gray-50 rounded-lg p-2 md:p-4 group-hover:bg-emerald-50 transition-colors duration-300">
                                                         <Image
                                                             src={ingredient.image}
                                                             alt={ingredient.name}
@@ -96,7 +97,7 @@ export function IngredientsCarousel() {
                                                             className="object-contain h-full w-auto mix-blend-multiply group-hover:scale-110 transition-transform duration-500"
                                                         />
                                                     </div>
-                                                    <h3 className="text-emerald-900 font-semibold text-lg group-hover:text-emerald-700 transition-colors">
+                                                    <h3 className="text-emerald-900 font-semibold text-sm md:text-lg group-hover:text-emerald-700 transition-colors text-center leading-tight">
                                                         {ingredient.name}
                                                     </h3>
                                                 </CardContent>
@@ -106,9 +107,12 @@ export function IngredientsCarousel() {
                                 </CarouselItem>
                             ))}
                         </CarouselContent>
+                        {/* Show prev/next on all screens but only visually on md+ */}
                         <CarouselPrevious className="hidden md:flex -left-12 border-emerald-200 text-emerald-900 hover:bg-emerald-50 hover:text-emerald-700" />
                         <CarouselNext className="hidden md:flex -right-12 border-emerald-200 text-emerald-900 hover:bg-emerald-50 hover:text-emerald-700" />
                     </Carousel>
+                    {/* Mobile swipe hint */}
+                    <p className="md:hidden text-center text-xs text-muted-foreground mt-3 opacity-60">Swipe to explore →</p>
                 </div>
             </div>
         </section>
