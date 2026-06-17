@@ -10,17 +10,30 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import {
   User, Package, Heart, MapPin, Settings, Truck,
   CheckCircle, Clock, Edit2, Trash2, Plus, LogOut,
-  Loader2, Check, Activity, ShieldCheck, ArrowRight
+  Loader2, Check, Activity, ShieldCheck, ArrowRight, Sparkles
 } from "lucide-react"
 import { SiteHeader } from "@/components/site-header"
+import { HealthQuizModal } from "@/components/health-quiz-modal"
 import api from "@/lib/api"
 import { useToast } from "@/hooks/use-toast"
+
+const GOAL_META: Record<string, { emoji: string; color: string }> = {
+  "Heart Health":      { emoji: "❤️",  color: "bg-rose-100 text-rose-700 border-rose-200" },
+  "Sleep & Relaxation":{ emoji: "🧠",  color: "bg-violet-100 text-violet-700 border-violet-200" },
+  "Energy":            { emoji: "⚡",  color: "bg-amber-100 text-amber-700 border-amber-200" },
+  "Immunity":          { emoji: "🛡️", color: "bg-orange-100 text-orange-700 border-orange-200" },
+  "Anti-Inflammatory": { emoji: "🦴",  color: "bg-sky-100 text-sky-700 border-sky-200" },
+  "Digestive Health":  { emoji: "🌱",  color: "bg-emerald-100 text-emerald-700 border-emerald-200" },
+}
 
 export default function AccountPage() {
   const [activeTab, setActiveTab] = useState("overview")
   const [user, setUser] = useState({ name: "", email: "", phone: "", memberSince: "" })
   const [orders, setOrders] = useState<any[]>([])
   const [addresses, setAddresses] = useState<any[]>([])
+  const [healthGoals, setHealthGoals] = useState<string[]>([])
+  const [showQuizModal, setShowQuizModal] = useState(false)
+  const [quizKey, setQuizKey] = useState(0)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -80,6 +93,16 @@ export default function AccountPage() {
       // Fetch Addresses
       const { data: myAddresses } = await api.get('/users/addresses', config)
       setAddresses(myAddresses || [])
+
+      // Fetch Health Goals
+      try {
+        const { data: goalsData } = await api.get('/users/health-goals', config)
+        setHealthGoals(goalsData.healthGoals || [])
+        if (goalsData.healthGoals?.length > 0) {
+          localStorage.setItem('healthGoals', JSON.stringify(goalsData.healthGoals))
+          localStorage.setItem('healthGoalsSet', 'true')
+        }
+      } catch { /* non-critical */ }
 
     } catch (error) {
       toast({ title: "Error", description: "Failed to load account information", variant: "destructive" })
@@ -200,6 +223,7 @@ export default function AccountPage() {
   }
 
   return (
+    <>
     <div className="min-h-screen bg-[#F5F3F0]">
       <SiteHeader />
 
@@ -257,6 +281,14 @@ export default function AccountPage() {
                 }`}
               >
                 <Settings className="h-4 w-4 mr-3" /> Settings
+              </button>
+              <button
+                onClick={() => setActiveTab("health")}
+                className={`flex items-center w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                  activeTab === "health" ? "bg-[#1a4d3e] text-white" : "text-gray-600 hover:bg-emerald-50 hover:text-[#1a4d3e]"
+                }`}
+              >
+                <Heart className="h-4 w-4 mr-3" /> My Health
               </button>
             </Card>
           </div>
@@ -626,8 +658,80 @@ export default function AccountPage() {
               </div>
             )}
           </div>
+
+          {/* Health Tab */}
+          {activeTab === "health" && (
+            <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2">
+              <Card className="p-8 border-0 shadow-md">
+                <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-100">
+                  <div className="flex items-center gap-3">
+                    <Heart className="w-6 h-6 text-[#1a4d3e]" />
+                    <h3 className="text-xl font-semibold text-[#1a4d3e]">My Health Goals</h3>
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="border-[#1a4d3e] text-[#1a4d3e] hover:bg-[#1a4d3e] hover:text-white"
+                    onClick={() => { setQuizKey(k => k + 1); setShowQuizModal(true) }}
+                  >
+                    <Edit2 className="h-3.5 w-3.5 mr-1.5" />
+                    {healthGoals.length === 0 ? 'Take Health Quiz' : 'Edit Goals'}
+                  </Button>
+                </div>
+                {healthGoals.length === 0 ? (
+                  <div className="text-center py-10">
+                    <div className="text-5xl mb-4">🎯</div>
+                    <p className="text-gray-500 mb-2 font-medium">No health goals set yet.</p>
+                    <p className="text-sm text-gray-400">Take our quick quiz to get personalised product recommendations!</p>
+                    <Button
+                      className="mt-6 bg-[#1a4d3e] hover:bg-[#2d6a5a]"
+                      onClick={() => { setQuizKey(k => k + 1); setShowQuizModal(true) }}
+                    >
+                      <Sparkles className="h-4 w-4 mr-2" />
+                      Take the Health Quiz
+                    </Button>
+                  </div>
+                ) : (
+                  <div>
+                    <p className="text-sm text-gray-500 mb-5">You're working on improving these areas. We'll show you the best products for each.</p>
+                    <div className="flex flex-wrap gap-3">
+                      {healthGoals.map((goal) => {
+                        const meta = GOAL_META[goal] || { emoji: '🌿', color: 'bg-emerald-100 text-emerald-700 border-emerald-200' }
+                        return (
+                          <div key={goal} className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-full border text-sm font-semibold ${meta.color}`}>
+                            <span>{meta.emoji}</span>
+                            <span>{goal}</span>
+                          </div>
+                        )
+                      })}
+                    </div>
+                    <div className="mt-8 pt-6 border-t border-gray-100">
+                      <Link href={`/products?category=${encodeURIComponent(healthGoals[0] || '')}`}>
+                        <Button className="bg-[#1a4d3e] hover:bg-[#2d6a5a]">
+                          View My Recommended Products <ArrowRight className="ml-2 h-4 w-4" />
+                        </Button>
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </Card>
+            </div>
+          )}
         </div>
       </div>
     </div>
+
+    {/* Health Quiz Modal re-open from account page */}
+    {showQuizModal && (
+      <HealthQuizModal
+        key={quizKey}
+        onClose={() => {
+          setShowQuizModal(false)
+          const saved = localStorage.getItem('healthGoals')
+          if (saved) setHealthGoals(JSON.parse(saved))
+        }}
+      />
+    )}
+    </>
   )
 }

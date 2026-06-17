@@ -148,6 +148,23 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-[1000] w-full bg-white shadow-[0_2px_8px_rgba(0,0,0,0.08)]">
+      {/* Announcement Bar */}
+      <div className="bg-[#1a4d3e] text-white text-xs overflow-hidden h-8 flex items-center relative">
+        <div className="animate-announcement whitespace-nowrap flex items-center">
+          {[...Array(3)].map((_, i) => (
+            <span key={i} className="flex items-center gap-8 px-8">
+              <span>🚚 Free shipping on orders above ₹1500</span>
+              <span className="text-[#d4af37]">✦</span>
+              <span>✨ New Nano formulas just dropped</span>
+              <span className="text-[#d4af37]">✦</span>
+              <span>🌿 Lab-certified. 10x better absorption</span>
+              <span className="text-[#d4af37]">✦</span>
+              <span>⚡ Use code NANO10 for 10% off your first order</span>
+              <span className="text-[#d4af37]">✦</span>
+            </span>
+          ))}
+        </div>
+      </div>
       <div className="container mx-auto px-6 md:px-10">
         <div className="flex h-[50px] md:h-[70px] items-center justify-between">
           {/* Logo */}
@@ -171,9 +188,14 @@ export function SiteHeader() {
                 <ChevronDown className="h-4 w-4" />
               </button>
               {showShopDropdown && (
-                <div className="absolute top-full left-0 pt-2 min-w-[180px] animate-in fade-in-0 zoom-in-95 duration-200">
+                <div className="absolute top-full left-0 pt-2 min-w-[200px] animate-in fade-in-0 zoom-in-95 duration-200">
                   <div className="bg-white border border-[#E8E8E8] rounded-lg shadow-[0_8px_24px_rgba(0,0,0,0.12)] py-4">
                     <Link href="/products" className="block px-5 py-3 text-[14px] text-[#5a7a77] hover:bg-[#F5F5F5] hover:text-[#1a4d3e] transition-colors">All Products</Link>
+                    <Link href="/#shop" className="block px-5 py-3 text-[14px] font-semibold text-[#1a4d3e] hover:bg-emerald-50 transition-colors flex items-center gap-2">
+                      <span className="h-1.5 w-1.5 rounded-full bg-[#d4af37] inline-block"></span>
+                      Featured Products
+                    </Link>
+                    <div className="my-1 mx-4 border-t border-gray-100" />
                     <Link href="/products?category=Immunity" className="block px-5 py-3 text-[14px] text-[#5a7a77] hover:bg-[#F5F5F5] hover:text-[#1a4d3e] transition-colors">Immunity</Link>
                     <Link href="/products?category=Energy" className="block px-5 py-3 text-[14px] text-[#5a7a77] hover:bg-[#F5F5F5] hover:text-[#1a4d3e] transition-colors">Energy</Link>
                     <Link href="/products?category=Heart+Health" className="block px-5 py-3 text-[14px] text-[#5a7a77] hover:bg-[#F5F5F5] hover:text-[#1a4d3e] transition-colors">Heart Health</Link>
@@ -183,6 +205,18 @@ export function SiteHeader() {
                 </div>
               )}
             </div>
+
+            {/* Featured Products — direct nav link */}
+            <Link
+              href="/#shop"
+              className="relative text-[14px] font-semibold text-[#1a4d3e] hover:text-[#2d6a5a] transition-colors font-[family-name:var(--font-inter)] group"
+            >
+              Featured
+              <span className="absolute -top-1 -right-3 flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#d4af37] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#d4af37]"></span>
+              </span>
+            </Link>
 
             {/* Resources Dropdown */}
             <div
@@ -378,6 +412,10 @@ export function SiteHeader() {
             <nav className="flex flex-col gap-3">
               <Link href="/products" className="text-[14px] font-medium text-[#5a7a77] hover:text-[#1a4d3e] py-2" onClick={() => setMobileMenuOpen(false)}>
                 Shop All Products
+              </Link>
+              <Link href="/#shop" className="text-[14px] font-semibold text-[#1a4d3e] py-2 flex items-center gap-2" onClick={() => setMobileMenuOpen(false)}>
+                <span className="h-2 w-2 rounded-full bg-[#d4af37] inline-block"></span>
+                Featured Products
               </Link>
               <Link href="/products?category=Immunity" className="text-[14px] font-medium text-[#5a7a77] hover:text-[#1a4d3e] py-2" onClick={() => setMobileMenuOpen(false)}>
                 Immunity

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { Eye, EyeOff, Loader2, Mail } from "lucide-react"
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google'
 import api from "@/lib/api"
@@ -14,9 +14,13 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { SiteHeader } from "@/components/site-header"
 import { useCart } from "@/components/cart-provider"
+import { Suspense } from "react"
+import { Loader2 as SpinnerIcon } from "lucide-react"
 
-export default function LoginPage() {
+function LoginForm() {
     const router = useRouter()
+    const searchParams = useSearchParams()
+    const redirectTo = searchParams.get("redirect") || "/account"
     const { toast } = useToast()
     const { syncCart } = useCart()
     const [isLoading, setIsLoading] = useState(false)
@@ -28,7 +32,7 @@ export default function LoginPage() {
         if (userInfo) {
             try {
                 const u = JSON.parse(userInfo)
-                router.replace(u.isAdmin ? "/admin" : "/account")
+                router.replace(u.isAdmin ? "/admin" : redirectTo)
             } catch { }
         }
     }, [])
@@ -91,7 +95,6 @@ export default function LoginPage() {
             localStorage.setItem('userInfo', JSON.stringify(sessionData))
             
             if (data.isAdmin) {
-                // Admin session data (separate key or same key, let's use both for clarity or just userInfo)
                 localStorage.setItem('adminInfo', JSON.stringify(sessionData))
                 toast({
                     title: "Admin Login Successful",
@@ -101,10 +104,10 @@ export default function LoginPage() {
             } else {
                 toast({
                     title: "Login Successful",
-                    description: `Welcome back, ${data.name}`,
+                    description: `Welcome back, ${data.name} 🌿`,
                 })
                 await syncCart()
-                router.push("/account")
+                router.push(redirectTo)
             }
             
         } catch (error: any) {
@@ -131,9 +134,9 @@ export default function LoginPage() {
                 toast({ title: "Admin Login Successful" })
                 router.push("/admin")
             } else {
-                toast({ title: "Login Successful" })
+                toast({ title: "Login Successful 🌿", description: "Welcome back!" })
                 await syncCart()
-                router.push("/account")
+                router.push(redirectTo)
             }
         } catch (error: any) {
             toast({
@@ -249,3 +252,12 @@ export default function LoginPage() {
         </GoogleOAuthProvider>
     )
 }
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><SpinnerIcon className="h-8 w-8 animate-spin text-[#1a4d3e]" /></div>}>
+      <LoginForm />
+    </Suspense>
+  )
+}
+
