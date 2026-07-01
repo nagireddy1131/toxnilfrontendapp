@@ -148,23 +148,6 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-[1000] w-full bg-white shadow-[0_2px_8px_rgba(0,0,0,0.08)]">
-      {/* Announcement Bar */}
-      <div className="bg-[#1a4d3e] text-white text-xs overflow-hidden h-8 flex items-center relative">
-        <div className="animate-announcement whitespace-nowrap flex items-center">
-          {[...Array(3)].map((_, i) => (
-            <span key={i} className="flex items-center gap-8 px-8">
-              <span>🚚 Free shipping on orders above ₹1500</span>
-              <span className="text-[#d4af37]">✦</span>
-              <span>✨ New Nano formulas just dropped</span>
-              <span className="text-[#d4af37]">✦</span>
-              <span>🌿 Lab-certified. 10x better absorption</span>
-              <span className="text-[#d4af37]">✦</span>
-              <span>⚡ Use code NANO10 for 10% off your first order</span>
-              <span className="text-[#d4af37]">✦</span>
-            </span>
-          ))}
-        </div>
-      </div>
       <div className="container mx-auto px-6 md:px-10">
         <div className="flex h-[50px] md:h-[70px] items-center justify-between">
           {/* Logo */}

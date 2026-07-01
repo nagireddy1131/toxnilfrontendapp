@@ -18,6 +18,10 @@ import { HeroCarousel } from "@/components/hero-carousel"
 import { ScrollReveal } from "@/components/scroll-reveal"
 import { HealthQuizModal } from "@/components/health-quiz-modal"
 import { PersonalizedProducts } from "@/components/personalized-products"
+import { ScienceSection } from "@/components/science-section"
+import { OurStorySection } from "@/components/our-story-section"
+import { PureBenefitsSection } from "@/components/pure-benefits-section"
+import { KnowMoreSection } from "@/components/know-more-section"
 
 export default function HomePage() {
   const [showQuiz, setShowQuiz] = useState(false)
@@ -69,6 +73,9 @@ export default function HomePage() {
 
       {/* Animated Stats Bar */}
       <AnimatedStats />
+
+      {/* Science & Nanotechnology Deep-Dive */}
+      <ScienceSection />
 
       {/* Nano Absorption Comparison */}
       <section className="py-16 bg-gradient-to-r from-emerald-950 to-[#1a3d2e] text-white overflow-hidden relative">
@@ -204,6 +211,9 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Pure Benefits / No Side Effects */}
+      <PureBenefitsSection />
+
       {/* Benefits Section */}
       <section id="education" className="py-20 bg-[#F5F3F0]">
         <div className="container mx-auto px-4">
@@ -238,6 +248,9 @@ export default function HomePage() {
       </section>
 
       <NanoTechnologySection />
+
+      {/* Our Story Timeline */}
+      <OurStorySection />
 
       {/* Expert Testimonials */}
       <section id="reviews" className="py-20 bg-emerald-50">
@@ -308,6 +321,9 @@ export default function HomePage() {
           ))}
         </div>
       </section>
+
+      {/* Know More — Video + FAQ + Research */}
+      <KnowMoreSection />
 
       {/* Wellness Insights */}
       <section className="py-20 bg-background">

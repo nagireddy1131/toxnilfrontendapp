@@ -5,6 +5,8 @@ import Link from "next/link"
 import { ShoppingBag, ArrowUp, X, Minus, Plus, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useCart } from "@/components/cart-provider"
+import { SocialProofToast } from "@/components/social-proof-toast"
+import { WhatsAppButton } from "@/components/whatsapp-button"
 
 export function StickyUIElements() {
   const { items: cartItems, updateQuantity, removeItem, subtotal, cartCount } = useCart()
@@ -36,6 +38,12 @@ export function StickyUIElements() {
 
   return (
     <>
+      {/* Social Proof Toast */}
+      <SocialProofToast />
+
+      {/* WhatsApp Support Button */}
+      <WhatsAppButton />
+
       {/* Scroll Progress Bar */}
       {mounted && (
         <div className="fixed top-0 left-0 right-0 z-[1100] h-1 bg-gray-200/50">
