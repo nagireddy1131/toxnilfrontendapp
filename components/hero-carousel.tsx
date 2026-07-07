@@ -3,11 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ChevronLeft, ChevronRight, ShoppingCart, Sparkles, Eye, CheckCircle2, ArrowLeft, X } from "lucide-react"
-import api from "@/lib/api"
-import { useCart } from "@/components/cart-provider"
-import { useToast } from "@/hooks/use-toast"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
+import { ChevronLeft, ChevronRight } from "lucide-react"
 
 const slides = [
   {
@@ -104,50 +100,6 @@ const slides = [
 export function HeroCarousel() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isHovered, setIsHovered] = useState(false)
-  const [products, setProducts] = useState<any[]>([])
-  const [selectedBundle, setSelectedBundle] = useState<any>(null)
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const { addItem } = useCart()
-  const { toast } = useToast()
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const { data } = await api.get('/products')
-        const allProducts = Array.isArray(data) ? data : (data.products || [])
-        setProducts(allProducts)
-      } catch (error) {
-        console.error("Failed to fetch products for carousel", error)
-      }
-    }
-    fetchProducts()
-  }, [])
-
-  const handleShopNowClick = (slide: any) => {
-    const matchingBundle = products.find(p => p.name.toLowerCase() === slide.heading.toLowerCase())
-    if (matchingBundle) {
-      setSelectedBundle(matchingBundle)
-      setIsModalOpen(true)
-    } else {
-      window.location.href = slide.link
-    }
-  }
-
-  const handleAddBundleToCart = () => {
-    if (!selectedBundle) return
-    addItem({
-      id: selectedBundle._id || selectedBundle.id,
-      name: selectedBundle.name,
-      price: selectedBundle.price,
-      image: selectedBundle.image,
-      category: selectedBundle.category,
-    })
-    toast({
-      title: "Stack Added to Cart ✓",
-      description: `${selectedBundle.name} has been added to your cart for ₹${selectedBundle.price}`,
-    })
-    setIsModalOpen(false)
-  }
 
   useEffect(() => {
     if (!isHovered) {
@@ -214,13 +166,11 @@ export function HeroCarousel() {
               </h2>
               <p className="text-[12px] font-medium text-[#2C3E50]">{slide.subheading}</p>
               <p className="text-[14px] font-bold text-[#1a4d3e]">{slide.price}</p>
-              <Button
-                size="sm"
-                className="bg-[#1a4d3e] hover:bg-[#2C3E50] text-white px-6 rounded-full shadow-md text-[12px]"
-                onClick={() => handleShopNowClick(slide)}
-              >
-                Shop Now
-              </Button>
+              <Link href={slide.link} className="inline-block pt-1">
+                <Button size="sm" className="bg-[#1a4d3e] hover:bg-[#2C3E50] text-white px-6 rounded-full shadow-md text-[12px]">
+                  Shop Now
+                </Button>
+              </Link>
             </div>
           </div>
 
@@ -243,13 +193,14 @@ export function HeroCarousel() {
                 <p className="text-[15px] text-[#5A7A77] leading-relaxed max-w-lg">
                   {slide.body}
                 </p>
+                <Link href={slide.link} passHref>
                   <Button
                     size="lg"
                     className="bg-[#1a4d3e] hover:bg-[#2C3E50] text-white mt-2 px-8 py-6 text-[15px] font-semibold rounded-full transition-all duration-300 hover:scale-105"
-                    onClick={() => handleShopNowClick(slide)}
                   >
                     Shop Now
                   </Button>
+                </Link>
               </div>
               <div className="relative h-96 flex items-center justify-center">
                 <div className="flex items-center justify-center gap-4 h-full">
@@ -308,177 +259,6 @@ export function HeroCarousel() {
       <div className="hidden md:block absolute bottom-4 left-5 z-[5] text-[13px] text-[#1a4d3e] opacity-60">
         {currentSlide + 1}/{slides.length}
       </div>
-
-      {/* Bundle Quick View Dialog */}
-      {selectedBundle && (
-        <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-          <DialogContent
-            showCloseButton={false}
-            className="w-[95vw] max-w-6xl bg-gradient-to-br from-[#F9F8F6] to-[#EEF5EE] border-none shadow-2xl rounded-3xl p-0 overflow-hidden flex flex-col
-                       top-[70px] translate-y-0 max-h-[calc(100vh-90px)]"
-          >
-
-            {/* Top hero banner */}
-            <div className="relative bg-gradient-to-r from-[#1a4d3e] to-[#2d6a5a] px-8 py-6 flex-shrink-0">
-              {/* Decorative blobs */}
-              <div className="absolute top-0 right-0 w-48 h-48 rounded-full bg-white/5 -translate-y-1/2 translate-x-1/4 pointer-events-none" />
-              <div className="absolute bottom-0 left-20 w-32 h-32 rounded-full bg-white/5 translate-y-1/2 pointer-events-none" />
-
-              {/* Close button — top-right */}
-              <button
-                onClick={() => setIsModalOpen(false)}
-                aria-label="Close"
-                className="absolute top-4 right-4 z-20 flex items-center gap-1.5 text-white/80 hover:text-white bg-white/15 hover:bg-white/25 rounded-full px-3 py-1.5 text-xs font-semibold transition-all duration-200 hover:scale-105 border border-white/20"
-              >
-                <X className="h-3.5 w-3.5" />
-                Close
-              </button>
-
-              <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-                {/* Left: badge + title + description */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-3">
-                    <div className="h-6 w-6 rounded-full bg-white/20 flex items-center justify-center">
-                      <Sparkles className="h-3.5 w-3.5 text-[#d4af37]" />
-                    </div>
-                    <span className="text-xs font-bold uppercase tracking-widest text-emerald-200">
-                      Exclusive Stack Offer
-                    </span>
-                  </div>
-                  <DialogTitle className="text-3xl md:text-4xl font-bold font-playfair text-white mb-2">
-                    {selectedBundle.name}
-                  </DialogTitle>
-                  <DialogDescription className="text-[14px] text-emerald-100/80 leading-relaxed max-w-xl">
-                    {selectedBundle.description}
-                  </DialogDescription>
-                </div>
-
-                {/* Right: price pill */}
-                <div className="flex-shrink-0 bg-white/10 backdrop-blur-md rounded-2xl px-6 py-4 text-center border border-white/10">
-                  <p className="text-emerald-200 text-xs font-semibold uppercase tracking-wider mb-1">Bundle Price</p>
-                  <div className="flex items-baseline gap-2 justify-center">
-                    <span className="text-4xl font-extrabold text-white">₹{selectedBundle.price}</span>
-                    {selectedBundle.originalPrice && (
-                      <span className="text-lg text-emerald-200/60 line-through">₹{selectedBundle.originalPrice}</span>
-                    )}
-                  </div>
-                  {selectedBundle.discount && (
-                    <span className="inline-block mt-1 bg-[#d4af37] text-[#1a4d3e] text-xs font-extrabold px-3 py-1 rounded-full">
-                      {selectedBundle.discount}% OFF
-                    </span>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Scrollable body */}
-            <div className="overflow-y-auto flex-1 p-6 md:p-8 space-y-6">
-
-              {/* Action buttons */}
-              <div className="flex flex-col sm:flex-row gap-3">
-                <Button
-                  onClick={handleAddBundleToCart}
-                  className="flex-1 bg-[#1a4d3e] hover:bg-[#2C3E50] text-white rounded-full h-13 py-3.5 text-[15px] font-bold shadow-lg hover:scale-[1.02] transition-all duration-200"
-                >
-                  <ShoppingCart className="mr-2 h-5 w-5" /> Add Entire Stack to Cart
-                </Button>
-                <Link href={`/products/${selectedBundle._id || selectedBundle.id}`} onClick={() => setIsModalOpen(false)}>
-                  <Button variant="outline" className="w-full sm:w-auto border-2 border-[#1a4d3e] text-[#1a4d3e] hover:bg-[#1a4d3e] hover:text-white rounded-full h-13 py-3.5 px-8 text-[15px] font-bold bg-transparent transition-all duration-200">
-                    <Eye className="mr-2 h-5 w-5" /> View Full Details
-                  </Button>
-                </Link>
-              </div>
-
-              {/* Products included */}
-              <div>
-                <h3 className="text-lg font-bold text-[#1a4d3e] flex items-center gap-2 mb-3">
-                  <CheckCircle2 className="h-5 w-5 text-emerald-600" />
-                  What's Included in this Stack
-                </h3>
-                {/* Mobile: stacked horizontal cards | Desktop: 3-col vertical grid */}
-                <div className="flex flex-col md:grid md:grid-cols-3 gap-4">
-                  {(() => {
-                    const childProducts = selectedBundle.bundleProducts
-                      ? selectedBundle.bundleProducts.map((childId: string) =>
-                          products.find((p) => p._id === childId || p.id === childId)
-                        ).filter(Boolean)
-                      : [];
-
-                    if (childProducts.length === 0) {
-                      return (
-                        <p className="text-sm text-muted-foreground py-6 text-center">
-                          Loading included products...
-                        </p>
-                      );
-                    }
-
-                    return childProducts.map((product: any) => (
-                      <div
-                        key={product._id}
-                        className="group bg-white rounded-2xl border border-[#1a4d3e]/8 shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden
-                                   flex flex-row md:flex-col"
-                      >
-                        {/* Image — left strip on mobile, top on desktop */}
-                        <div className="
-                          w-28 shrink-0 md:w-full md:h-48
-                          bg-gradient-to-br from-emerald-50 via-[#F5F3F0] to-emerald-50/30
-                          flex items-center justify-center p-3 md:p-5
-                          relative overflow-hidden
-                        ">
-                          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(26,77,62,0.05),transparent_70%)]" />
-                          <img
-                            src={product.image || "/placeholder.svg"}
-                            alt={product.name}
-                            className="h-20 md:h-40 w-auto object-contain drop-shadow-lg group-hover:scale-105 transition-transform duration-300"
-                          />
-                        </div>
-
-                        {/* Info — right on mobile, below on desktop */}
-                        <div className="flex-1 p-4 flex flex-col justify-between">
-                          <div>
-                            <p className="text-[10px] text-[#5A7A77] uppercase font-bold tracking-wider mb-1">
-                              {product.category}
-                            </p>
-                            <h4 className="text-[14px] md:text-[15px] font-bold text-[#1a4d3e] leading-snug mb-1.5">
-                              {product.name}
-                            </h4>
-                            <p className="text-[12px] text-muted-foreground leading-relaxed line-clamp-2 hidden sm:block">
-                              {product.description}
-                            </p>
-                          </div>
-                          <div className="flex items-center justify-between mt-3">
-                            <span className="text-[15px] font-extrabold text-[#1a4d3e]">₹{product.price}</span>
-                            <span className="text-[10px] text-emerald-600 font-bold bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100">
-                              Included ✓
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    ));
-                  })()}
-                </div>
-              </div>
-
-
-              {/* Trust signals row */}
-
-              <div className="grid grid-cols-3 gap-4 pt-4 border-t border-[#1a4d3e]/10">
-                {[
-                  { icon: "🛡️", title: "Quality Guaranteed", sub: "Premium nano-formulas" },
-                  { icon: "🚚", title: "Free Shipping", sub: "On orders above ₹999" },
-                  { icon: "↩️", title: "30-Day Returns", sub: "Hassle-free guarantee" },
-                ].map((t) => (
-                  <div key={t.title} className="flex flex-col items-center text-center gap-1">
-                    <span className="text-2xl">{t.icon}</span>
-                    <p className="text-xs font-bold text-[#1a4d3e]">{t.title}</p>
-                    <p className="text-[10px] text-muted-foreground">{t.sub}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </DialogContent>
-        </Dialog>
-      )}
     </div>
   )
 }
